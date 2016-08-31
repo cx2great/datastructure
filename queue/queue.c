@@ -40,13 +40,41 @@ queue_t *queue_next( queue_t *p)
     return p->next;
 }
 
+queue_t *queue_prev( queue_t *p)
+{
+    return p->prev;
+}
+
+queue_t *queue_last( queue_t *p)
+{
+    return p->prev;
+}
+
+queue_t *queue_middle( queue_t *queue)
+{
+    queue_t *middle = queue_next(queue);
+    if( middle == queue_last(queue) ) return middle;
+
+    queue_t *next = queue_next(queue);
+    for(;;)
+    {
+        middle = queue_next(middle);
+        next = queue_next(next);
+        if( next == queue_last(queue) ) return middle;
+
+        next = queue_next(next);
+        if( next == queue_last(queue) ) return middle;
+    }
+}
+
+/*test
 struct node{
     int num ;
     queue_t q;
 };
 typedef struct node node ;
 
-int main(void)
+void test()
 {
     node n[5];
     n[0].num=0;
@@ -70,7 +98,12 @@ int main(void)
         node *tmp = queue_data( t , node , q );
         printf("%d\n",tmp->num) ;
     }
-    return 0 ;
+}
+
+int main(void)
+{
+    test();
+    return 0;
 }
 
 
